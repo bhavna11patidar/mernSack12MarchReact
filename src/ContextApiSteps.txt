@@ -1,0 +1,177 @@
+Semi Global
+1. Create a folder -> contexts inside src.
+2. create file userContext.js
+3. code in userContext:-
+    import React ,{createContext} from "react"
+    const userContext=createContext();
+    export default userContext;
+
+4. Create 2 functional components ->
+    FirstContext.js & SecondContext.js
+
+     FirstContext.js:-
+     Note:- The components in which u wants to maintain the should be wrapped inside 
+    import React, {useState} from 'react';
+    import SecondContext from './SecondContext';
+    import userContext from "./../contexts/userContext"
+
+
+    export default function FirstContext() {
+    const [username,setUsername]=useState("Hiral");
+    return (
+        <div>
+            <h1>First Component</h1>
+            <p>USername : {username}</p>
+            <userContext.Provider value={{username}} >
+                <SecondContext></SecondContext>
+            </userContext.Provider>
+        </div>
+    )
+    }
+
+
+    SecondContext.js:-
+    import React, {useContext} from 'react'
+    import userContext from "./../contexts/userContext"
+    export default function SecondContext() {
+    const {username}=useContext(userContext);
+    return (
+        <div>
+            <h2>Second Context</h2>
+            <p>Username : {username}</p>
+        </div>
+    )
+    }
+
+
+
+    With 3rd Component:-
+FirstContext.js:-
+        import React, {useState} from 'react';
+        import SecondContext from './SecondContext';
+        import userContext from "./../contexts/userContext"
+        import ThirdContext from './ThirdContext';
+
+
+        export default function FirstContext() {
+        const [username,setUsername]=useState("Hiral");
+        const changeUsername=()=>{
+            setUsername("Bhavna");
+        }
+        return (
+            <div>
+                <h1>First Component</h1>
+                <p>USername : {username}</p>
+                <button onClick={changeUsername}>Change username</button>
+                <userContext.Provider value={{username, setUsername,changeUsername}} >
+                    <SecondContext></SecondContext>
+                    <ThirdContext></ThirdContext>
+                </userContext.Provider>
+            </div>
+        )
+        }
+
+
+    ThirdContext.js
+    
+    import React, {useContext} from 'react'
+    import userContext from "./../contexts/userContext"
+    export default function ThirdContext() {
+    const {username,setUsername,changeUsername}=useContext(userContext);
+    return (
+        <div>
+            <h2>Third Context</h2>
+            <p>Username : {username}</p>
+            <button onClick={changeUsername}>Change username from Third Component</button>
+            <button onClick={()=>setUsername("Lukman")}>Change username from Third Component</button>
+        </div>
+    )
+    }
+
+//Global Level(useReducer)
+Steps:-
+STEP1:- CREATE  a folder with name reducers
+step2: create a file firstReducer.js in reducers folder.
+step 3:-add code to firstReducer.js
+    export const initialState={
+    count:0,
+    resetCount:0,
+    }
+
+
+    const FirstReduce=(state, action)=>{
+        switch(action.type){
+            case "increment":
+                return {...state, count:state.count+1}
+            case "decrement":
+                return {...state, count:state.count-1}
+            case "reset":
+                return {...state, resetCount:0}
+            default:
+                return state;
+        }
+    }
+
+    export default FirstReduce;
+
+step 4. create new file-> firstContextReducer.js inside reducer.
+
+    import {createContext, useContext, useReducer} from "react";
+    import  FirstReduce,{initialState} from "./FirstReducer";
+    const FirstReducerContext=createContext();
+    export const useFirstReducerContext=()=>useContext(FirstReducerContext);
+
+    export const FirstReducerContextProvider=({children})=>{
+        const useFirstReducerContextState=useReducer(FirstReduce, initialState);
+        return (
+            <FirstReducerContext.Provider value={[...useFirstReducerContextState]}>
+                {children}
+            </FirstReducerContext.Provider>
+        )
+    }
+
+step 5: Create new component CounterReducer.js
+
+    import React from 'react'
+import {useFirstReducerContext} from "./../reducers/firstReducerContext";
+
+export default function CounterReducer() {
+  const [data,dispatch]=useFirstReducerContext();  
+  return (
+    <div>
+        <h2>Count is {data.count}</h2>
+        <button onClick={()=>dispatch({type:'increment', payload:5})}>Count +5</button>
+        <button onClick={()=>dispatch({type:'decrement'})}>Count -</button>
+    </div>
+    
+  )
+}
+
+
+step 6: on App.js
+    
+import {FirstReducerContextProvider} from "./reducers/firstReducerContext";
+import CounterReducer from "./Components/CounterReducer";
+
+ <FirstReducerContextProvider>
+             <Router>
+      <div>
+      <Header></Header>
+
+        <hr />
+        <Routes>
+          <Route path="/" element={<Home/>}></Route>
+          <Route path="/about" element={<About/>}></Route>
+          <Route path="/blog" element={<Blog/>}></Route>
+          <Route path="/user/:user_id/:name" element={<User/>}></Route>
+          <Route path="/axios-post" element={<AxiosPost/>}></Route>
+          <Route path="/add-post" element={<AddPost/>}></Route>
+          <Route path="/context-api" element={<FirstContext/>}></Route>
+          <Route path="/context-api-reducer" element={<CounterReducer/>}></Route>
+        </Routes>
+      </div>
+    </Router>
+    </FirstReducerContextProvider>
+
+
+

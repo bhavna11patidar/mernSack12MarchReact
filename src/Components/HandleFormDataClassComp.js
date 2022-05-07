@@ -22,7 +22,7 @@ export default class HandleFormDataClassComp extends Component {
           <input type="text" className="form-control" name="myname" placeholder='Enter name' onInput={(e)=>this.handleFormData(e)}/> 
           <input type="text" className="form-control" name="email" placeholder='Enter Email' onInput={(e)=>this.handleFormData(e)}/> 
           <input type="text" className="form-control" name="tech" placeholder='Enter Tech' onInput={(e)=>this.handleFormData(e)}/> 
-         <button type="button" className="btn btn-info" onClick={this.formData}>Submit</button>
+         <button type="button" className="btn btn-success" onClick={this.formData}>Submit</button>
      </div>
       </div>
     </div>

@@ -38,13 +38,18 @@ import CounterReducer from "./Components/CounterReducer";
 import ClassComponentWithState from './Components/ClassComponentWithState';
 import PageNotFound from "./Components/PageNotFound";
 import ClassComponentWithStateProps from "./Components/ClassComponentWithStateProps";
+
+import store from "./store/Store";
+import {Provider} from "react-redux";
+import ReduxStateComp from "./Components/ReduxStateComp";
 function App() {
   return (
   <div>
       {/* <UseEffectComp1></UseEffectComp1>
       <CountryStateDropdown></CountryStateDropdown> */}
       {/* <Header></Header> */}
-      <FirstReducerContextProvider>
+      {/* <FirstReducerContextProvider> */}
+      <Provider store={store}>
              <Router>
       <div>
       <Header></Header>
@@ -61,12 +66,13 @@ function App() {
           <Route path="/context-api-reducer" element={<CounterReducer/>}></Route>
           <Route path="/class-comp" element={<ClassComponentWithState/>}></Route>
           <Route path="/class-comp1" element={<ClassComponentWithStateProps/>}></Route>
+          <Route path="/redux-data" element={<ReduxStateComp/>}></Route>
           <Route path="*" element={<PageNotFound/>}></Route>
         </Routes>
       </div>
     </Router>
-    </FirstReducerContextProvider>
-
+    {/* </FirstReducerContextProvider> */}
+    </Provider>
   </div>
   )
 }

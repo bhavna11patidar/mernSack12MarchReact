@@ -55,6 +55,9 @@ export default function Header() {
           <li>
             <Link to="/class-comp1">Class Component With State New</Link>
           </li>
+          <li>
+            <Link to="/redux-data">Redux</Link>
+          </li>
         </ul>
     </div>
 

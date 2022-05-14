@@ -58,6 +58,12 @@ export default function Header() {
           <li>
             <Link to="/redux-data">Redux</Link>
           </li>
+          <li>
+            <Link to="/redux-hooks-data">Redux Hooks</Link>
+          </li>
+          <li>
+            <Link to="/multiple-reducer-redux">Multiple Reducers Redux</Link>
+          </li>
         </ul>
     </div>
 

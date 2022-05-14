@@ -42,6 +42,8 @@ import ClassComponentWithStateProps from "./Components/ClassComponentWithStatePr
 import store from "./store/Store";
 import {Provider} from "react-redux";
 import ReduxStateComp from "./Components/ReduxStateComp";
+import ReduxStateWithHooks from "./Components/ReduxStateWithHooks";
+import MultipleReducerRedux from './Components/MultipleReducerRedux';
 function App() {
   return (
   <div>
@@ -67,6 +69,8 @@ function App() {
           <Route path="/class-comp" element={<ClassComponentWithState/>}></Route>
           <Route path="/class-comp1" element={<ClassComponentWithStateProps/>}></Route>
           <Route path="/redux-data" element={<ReduxStateComp/>}></Route>
+          <Route path="/redux-hooks-data" element={<ReduxStateWithHooks/>}></Route>
+          <Route path="/multiple-reducer-redux" element={<MultipleReducerRedux/>}></Route>
           <Route path="*" element={<PageNotFound/>}></Route>
         </Routes>
       </div>

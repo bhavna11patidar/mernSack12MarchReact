@@ -1,0 +1,88 @@
+16. Redux-
+	Redux is a predictable state container for js apps.
+	Three Parts from Defination:-
+		1. Javascript:- Not bound to react but can be used with js or angular.
+		2. State Container- Stores the state of application.
+		3. Predictable State- We can keep track of all state transitions.
+
+	Basically React helps in maintaining the state of our application.
+	
+	Why Redux:-
+	 Redux has main 3 concepts:-
+		1. Store:- It holds the state of our application.
+		2. Action:- Describes changes in our application.
+				-The only way our application can interact with the store
+				-Carry information from app to redux store.
+		3.Dispatch:- Caries out state transition based on The action.
+		
+	Steps for Redux:-	
+		1. Create a folder Store-> store.js
+			Here we will create a store for redux and intialize with our reducer.
+			Install Redux-		
+				npm install redux react-redux
+			
+			import CreateStore from "redux";
+			import SecondReducer from "./../reducers/SecondReducer";
+			const store=createStore(SecondReducer);
+			export default store;
+			
+		2. Create a new file SecondReducer.js in reducers folder.- use the same file as context reducer.
+			Only 3 things we have to change
+			1. Name of the function
+			2. State variable to see the difference
+			3. intial value of State in function parameter.
+			
+			export const initialState={
+				Reduxcount:0,
+				ReduxresetCount:0,
+			}
+
+
+			const SecondReducer=(state=initialState,{type,payload})=>{
+				switch(type){
+			//const SecondReducer=(state,action)=>{
+			   // switch(action.type){
+					case "increment":
+						return {...state, Reduxcount:state.Reduxcount+payload}
+					case "decrement":
+						return {...state, Reduxcount:state.Reduxcount-1}
+					case "reset":
+						return {...state, ReduxresetCount:state.ReduxresetCount+1}
+					default:
+						return state
+				}
+			}
+
+			export default SecondReducer;
+			
+		3. Import provider from react-redux and wrap all the routes in it
+			add route and link.
+			
+			import {Provider} from "react-redux";
+			import store from "./store/Store";
+			<Provider store={store}>
+			</Provider>
+			
+		4. Create a new component(UseReduxState) to use the redux state
+			import { connect } from 'react-redux'
+			
+			const mapStateToProps=(state)=>{
+				return {reduxCount:state.Reduxcount}
+			}
+
+			export default connect(mapStateToProps)(UseReduxState);
+			
+			pass props to function:
+			function UseReduxState(props)
+			
+			
+			
+		5. Change state on button click=>
+			
+			const mapDispatchToProps=(dispatch)=>{
+				return {incrementCount:()=>dispatch({type:"increment", payload:5})}
+			}
+			
+			 <button onClick={props.incrementCount}>Count ++</button>
+			 
+			 export default connect(mapStateToProps,mapDispatchToProps)(UseReduxState);
